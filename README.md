@@ -1,9 +1,12 @@
 # log
 这是一个go语言日志库
-
-
+```cmd
+go get -u github.com/ksamwang/log
+```
 使用实例如下
 
+
+```go
 package main
 
 import (
@@ -13,15 +16,16 @@ import (
 )
 
 func main() {
-	ksamlog.SetFormat("xml")
+	ksamlog.SetFormat("xml") // 设置日志格式，支持txt.json.xml
 	ksamlog.Error("第%d行运行时出现的错误，不必要立即进行修复%s", 1, "请联系网络")
 	ksamlog.Error("第%d行运行时出现的错误，不必要立即进行修复%s", 1, "请联系网络")
 	ksamlog.WARN("第%d行运行时出现的错误，不必要立即进行修复%s", 1, "请联系网络")
 	ksamlog.WARN("第%d行运行时出现的错误，不必要立即进行修复%s", 1, "请联系网络")
 	ksamlog.INFO("第%d行运行时出现的错误，不必要立即进行修复%s", 1, "请联系网络")
 	ksamlog.INFO("第%d行运行时出现的错误，不必要立即进行修复%s", 1, "请联系网络")
-	ksamlog.SetLogMode(ksamlog.Release)
-	ksamlog.SetFormat("json")
+	
+	ksamlog.SetLogMode(ksamlog.Release) //设置日志模式，默认debug
+	ksamlog.SetFormat("json") // 设置日志格式
 	ksamlog.Error("第%d行运行时出现的错误，不必要立即进行修复%s", 1, "请联系网络")
 	ksamlog.Error("第%d行运行时出现的错误，不必要立即进行修复%s", 1, "请联系网络")
 	ksamlog.WARN("第%d行运行时出现的错误，不必要立即进行修复%s", 1, "请联系网络")
@@ -29,7 +33,7 @@ func main() {
 	ksamlog.INFO("第%d行运行时出现的错误，不必要立即进行修复%s", 1, "请联系网络")
 	ksamlog.INFO("第%d行运行时出现的错误，不必要立即进行修复%s", 1, "请联系网络")
 
-	ksamlog.SetFormat("txt")
+	ksamlog.SetFormat("txt") // 设置日志格式
 	ksamlog.Error("第%d行运行时出现的错误，不必要立即进行修复%s", 1, "请联系网络")
 	ksamlog.Error("第%d行运行时出现的错误，不必要立即进行修复%s", 1, "请联系网络")
 	ksamlog.WARN("第%d行运行时出现的错误，不必要立即进行修复%s", 1, "请联系网络")
@@ -37,3 +41,4 @@ func main() {
 	ksamlog.INFO("第%d行运行时出现的错误，不必要立即进行修复%s", 1, "请联系网络")
 	ksamlog.INFO("第%d行运行时出现的错误，不必要立即进行修复%s", 1, "请联系网络")
 }
+```
