@@ -2,10 +2,13 @@ package ksamlog
 
 import (
 	"bufio"
+	"encoding/json"
+	"encoding/xml"
 	"fmt"
 	"os"
 	"path/filepath"
 	"runtime"
+	"strconv"
 	"strings"
 	"sync"
 	"time"
@@ -34,6 +37,7 @@ func (p *KsamLog) InitLog() error {
 	return nil
 }
 
+// 如果SetKsamLog和InitLog了就不需要以初始化的方式导入
 func init() {
 	run_name := os.Args[0]
 	name_len := len(run_name) - 1
@@ -54,6 +58,39 @@ func init() {
 	}
 	g_file.FileName = run_name
 	_ = os.Mkdir(fmt.Sprintf("%s/logs", AbsDirectory()), 0664)
+}
+
+var logFormat string = "txt"
+
+// SetFormat txt、json、xml
+func SetFormat(formatType string) {
+	if formatType == "txt" {
+		logFormat = formatType
+	}
+	if formatType == "json" {
+		logFormat = formatType
+	}
+	if formatType == "xml" {
+		logFormat = formatType
+	}
+}
+
+const (
+	Debug   = 0
+	Release = 1
+)
+
+var logMode int = Debug
+
+func SetLogMode(Mode int) {
+	if Debug == Mode {
+		logMode = Debug
+	}
+	if Release == Mode {
+		logMode = Release
+	} else {
+		logMode = Debug
+	}
 }
 
 func AbsDirectory() string {
@@ -109,11 +146,83 @@ func Error(format string, a ...interface{}) {
 	if !ok {
 		return
 	}
-	writer_text := fmt.Sprintf("%s\t%s\tInFile:%s,Line:%d-%s\r\n", t.Format("2006-01-02 15:04:05"), "[EROR]", infile, line, b.String())
+	var writer_text string
+	if logMode == Debug {
+
+		if logFormat == "txt" {
+			writer_text = fmt.Sprintf("%s\t%s\tInFile:%s,Line:%d-%s\r\n", t.Format("2006-01-02 15:04:05"), "[EROR]", infile, line, b.String())
+		}
+		if logFormat == "json" {
+			var w wlog_debug
+			w.Date = t.Format("2006-01-02 15:04:05")
+			w.Level = "[EROR]"
+			w.InFile = infile
+			w.InLine = strconv.Itoa(line)
+			w.Content = b.String()
+			marshal, err := json.Marshal(w)
+			if err != nil {
+				return
+			}
+			writer_text = string(marshal) + "\r\n"
+		}
+		if logFormat == "xml" {
+			var w wlog_debug
+			w.Date = t.Format("2006-01-02 15:04:05")
+			w.Level = "[EROR]"
+			w.InFile = infile
+			w.InLine = strconv.Itoa(line)
+			w.Content = b.String()
+			bytes, err := xml.Marshal(w)
+			if err != nil {
+				return
+			}
+			writer_text = string(bytes) + "\r\n"
+		}
+
+	} else {
+		if logFormat == "txt" {
+			writer_text = fmt.Sprintf("%s\t%s\t%s\r\n", t.Format("2006-01-02 15:04:05"), "[EROR]", b.String())
+		}
+		if logFormat == "json" {
+			var w wlog_release
+			w.Date = t.Format("2006-01-02 15:04:05")
+			w.Level = "[EROR]"
+			w.Content = b.String()
+			marshal, err := json.Marshal(w)
+			if err != nil {
+				return
+			}
+			writer_text = string(marshal) + "\r\n"
+		}
+		if logFormat == "xml" {
+			var w wlog_release
+			w.Date = t.Format("2006-01-02 15:04:05")
+			w.Level = "[EROR]"
+			w.Content = b.String()
+
+			bytes, err := xml.Marshal(w)
+			if err != nil {
+				return
+			}
+			writer_text = string(bytes) + "\r\n"
+		}
+	}
 	write_in_file(writer_text)
-	red := "\033[31m"
-	reset := "\033[0m"
-	_, _ = fmt.Fprintln(os.Stdout, red+writer_text+reset)
+	_, _ = fmt.Fprintf(os.Stdout, writer_text)
+}
+
+type wlog_debug struct {
+	Date    string `json:"Date" xml:"Date"`
+	Level   string `json:"Level" xml:"Level"`
+	InFile  string `json:"InFile" xml:"InFile"`
+	InLine  string `json:"InLine" xml:"InLine"`
+	Content string `json:"Content" xml:"Content"`
+}
+
+type wlog_release struct {
+	Date    string `xml:"Date" json:"Date"`
+	Level   string `xml:"Level" json:"Level"`
+	Content string `xml:"Content" json:"Content"`
 }
 
 func WARN(format string, a ...interface{}) {
@@ -130,11 +239,70 @@ func WARN(format string, a ...interface{}) {
 	if !ok {
 		return
 	}
-	writer_text := fmt.Sprintf("%s\t%s\tInFile:%s,Line:%d-%s\r\n", t.Format("2006-01-02 15:04:05"), "[WARN]", infile, line, b.String())
+	var writer_text string
+	if logMode == Debug {
+
+		if logFormat == "txt" {
+			writer_text = fmt.Sprintf("%s\t%s\tInFile:%s,Line:%d-%s\r\n", t.Format("2006-01-02 15:04:05"), "[WARN]", infile, line, b.String())
+		}
+		if logFormat == "json" {
+			var w wlog_debug
+			w.Date = t.Format("2006-01-02 15:04:05")
+			w.Level = "[WARN]"
+			w.InFile = infile
+			w.InLine = strconv.Itoa(line)
+			w.Content = b.String()
+			marshal, err := json.Marshal(w)
+			if err != nil {
+				return
+			}
+			writer_text = string(marshal) + "\r\n"
+		}
+		if logFormat == "xml" {
+			var w wlog_debug
+			w.Date = t.Format("2006-01-02 15:04:05")
+			w.Level = "[WARN]"
+			w.InFile = infile
+			w.InLine = strconv.Itoa(line)
+			w.Content = b.String()
+			bytes, err := xml.Marshal(w)
+			if err != nil {
+				return
+			}
+			writer_text = string(bytes) + "\r\n"
+		}
+
+	} else {
+		if logFormat == "txt" {
+			writer_text = fmt.Sprintf("%s\t%s\t%s\r\n", t.Format("2006-01-02 15:04:05"), "[WARN]", b.String())
+		}
+		if logFormat == "json" {
+			var w wlog_release
+			w.Date = t.Format("2006-01-02 15:04:05")
+			w.Level = "[WARN]"
+			w.Content = b.String()
+			marshal, err := json.Marshal(w)
+			if err != nil {
+				return
+			}
+			writer_text = string(marshal) + "\r\n"
+		}
+		if logFormat == "xml" {
+			var w wlog_release
+			w.Date = t.Format("2006-01-02 15:04:05")
+			w.Level = "[WARN]"
+			w.Content = b.String()
+
+			bytes, err := xml.Marshal(w)
+			if err != nil {
+				return
+			}
+			writer_text = string(bytes) + "\r\n"
+		}
+	}
 	write_in_file(writer_text)
-	red := "\033[33m"
-	reset := "\033[0m"
-	_, _ = fmt.Fprintln(os.Stdout, red+writer_text+reset)
+
+	_, _ = fmt.Fprintf(os.Stdout, writer_text)
 }
 
 func INFO(format string, a ...interface{}) {
@@ -147,8 +315,59 @@ func INFO(format string, a ...interface{}) {
 
 	t := time.Now()
 
-	writer_text := fmt.Sprintf("%s\t%s\t%s\r\n", t.Format("2006-01-02 15:04:05"), "[INFO]", b.String())
-	write_in_file(writer_text)
+	var writer_text string
 
-	_, _ = fmt.Fprintln(os.Stdout, writer_text)
+	if logFormat == "txt" {
+		writer_text = fmt.Sprintf("%s\t%s\t%s\r\n", t.Format("2006-01-02 15:04:05"), "[INFO]", b.String())
+	}
+	if logFormat == "json" {
+		if logMode == Debug {
+			var w wlog_debug
+			w.Date = t.Format("2006-01-02 15:04:05")
+			w.Level = "[INFO]"
+			w.Content = b.String()
+			marshal, err := json.Marshal(w)
+			if err != nil {
+				return
+			}
+			writer_text = string(marshal) + "\r\n"
+		} else {
+			var w wlog_release
+			w.Date = t.Format("2006-01-02 15:04:05")
+			w.Level = "[INFO]"
+			w.Content = b.String()
+			marshal, err := json.Marshal(w)
+			if err != nil {
+				return
+			}
+			writer_text = string(marshal) + "\r\n"
+		}
+
+	}
+	if logFormat == "xml" {
+		if logMode == Debug {
+			var w wlog_debug
+			w.Date = t.Format("2006-01-02 15:04:05")
+			w.Level = "[INFO]"
+			w.Content = b.String()
+
+			bytes, err := xml.Marshal(w)
+			if err != nil {
+				return
+			}
+			writer_text = string(bytes) + "\r\n"
+		} else {
+			var w wlog_release
+			w.Date = t.Format("2006-01-02 15:04:05")
+			w.Level = "[INFO]"
+			w.Content = b.String()
+			bytes, err := xml.Marshal(w)
+			if err != nil {
+				return
+			}
+			writer_text = string(bytes) + "\r\n"
+		}
+	}
+	write_in_file(writer_text)
+	_, _ = fmt.Fprintf(os.Stdout, writer_text)
 }
