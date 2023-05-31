@@ -1,0 +1,18 @@
+<wlog_debug><Date>2023-06-01 00:44:11</Date><Level>[EROR]</Level><InFile>G:/SourceCode/Go/github_log/test/test.go</InFile><InLine>11</InLine><Content>第1行运行时出现的错误，不必要立即进行修复请联系网络</Content></wlog_debug>
+<wlog_debug><Date>2023-06-01 00:44:11</Date><Level>[EROR]</Level><InFile>G:/SourceCode/Go/github_log/test/test.go</InFile><InLine>12</InLine><Content>第1行运行时出现的错误，不必要立即进行修复请联系网络</Content></wlog_debug>
+<wlog_debug><Date>2023-06-01 00:44:11</Date><Level>[WARN]</Level><InFile>G:/SourceCode/Go/github_log/test/test.go</InFile><InLine>13</InLine><Content>第1行运行时出现的错误，不必要立即进行修复请联系网络</Content></wlog_debug>
+<wlog_debug><Date>2023-06-01 00:44:11</Date><Level>[WARN]</Level><InFile>G:/SourceCode/Go/github_log/test/test.go</InFile><InLine>14</InLine><Content>第1行运行时出现的错误，不必要立即进行修复请联系网络</Content></wlog_debug>
+<wlog_debug><Date>2023-06-01 00:44:11</Date><Level>[INFO]</Level><InFile></InFile><InLine></InLine><Content>第1行运行时出现的错误，不必要立即进行修复请联系网络</Content></wlog_debug>
+<wlog_debug><Date>2023-06-01 00:44:11</Date><Level>[INFO]</Level><InFile></InFile><InLine></InLine><Content>第1行运行时出现的错误，不必要立即进行修复请联系网络</Content></wlog_debug>
+{"Date":"2023-06-01 00:44:11","Level":"[EROR]","Content":"第1行运行时出现的错误，不必要立即进行修复请联系网络"}
+{"Date":"2023-06-01 00:44:11","Level":"[EROR]","Content":"第1行运行时出现的错误，不必要立即进行修复请联系网络"}
+{"Date":"2023-06-01 00:44:11","Level":"[WARN]","Content":"第1行运行时出现的错误，不必要立即进行修复请联系网络"}
+{"Date":"2023-06-01 00:44:11","Level":"[WARN]","Content":"第1行运行时出现的错误，不必要立即进行修复请联系网络"}
+{"Date":"2023-06-01 00:44:11","Level":"[INFO]","Content":"第1行运行时出现的错误，不必要立即进行修复请联系网络"}
+{"Date":"2023-06-01 00:44:11","Level":"[INFO]","Content":"第1行运行时出现的错误，不必要立即进行修复请联系网络"}
+2023-06-01 00:44:11	[EROR]	第1行运行时出现的错误，不必要立即进行修复请联系网络
+2023-06-01 00:44:11	[EROR]	第1行运行时出现的错误，不必要立即进行修复请联系网络
+2023-06-01 00:44:11	[WARN]	第1行运行时出现的错误，不必要立即进行修复请联系网络
+2023-06-01 00:44:11	[WARN]	第1行运行时出现的错误，不必要立即进行修复请联系网络
+2023-06-01 00:44:11	[INFO]	第1行运行时出现的错误，不必要立即进行修复请联系网络
+2023-06-01 00:44:11	[INFO]	第1行运行时出现的错误，不必要立即进行修复请联系网络
